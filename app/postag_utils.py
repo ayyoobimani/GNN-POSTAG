@@ -118,21 +118,21 @@ def get_tag_frequencies_node_tags(model, editions, train_node_cover, train_label
     heb_pos_node_cover_copy, heb_pos_labels_copy = deepcopy(heb_node_cover), deepcopy(heb_labels)
     blinker_pos_node_cover_copy, blinker_pos_labels_copy = deepcopy(blinker_node_cover), deepcopy(blinker_labels)
 
-    #_, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, train_data_loader_bigbatch, from_gold_data=True)
-    #_, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, grc_data_loader_bigbatch, from_gold_data=True, tag_frequencies=tag_frequencies)
-    #_, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, heb_data_loader_bigbatch, from_gold_data=True, tag_frequencies=tag_frequencies)
-    #_, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, blinker_data_loader_bigbatch, from_gold_data=True, tag_frequencies=tag_frequencies)
+    _, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, train_data_loader_bigbatch, encoder_class, from_gold_data=True)
+    _, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, grc_data_loader_bigbatch, encoder_class, from_gold_data=True, tag_frequencies=tag_frequencies)
+    _, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, heb_data_loader_bigbatch, encoder_class, from_gold_data=True, tag_frequencies=tag_frequencies)
+    _, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, blinker_data_loader_bigbatch, encoder_class, from_gold_data=True, tag_frequencies=tag_frequencies)
 
-    _, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, blinker_data_loader_bigbatch, encoder_class, from_gold_data=True)
+    #_, tag_frequencies = get_words_tag_frequence(model, 2354770, class_count, blinker_data_loader_bigbatch, encoder_class, from_gold_data=True)
 
     
 
-    #_, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_train, node_cover=train_pos_node_cover_copy, pos_labels=train_pos_labels_copy)
-    #_, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_grc, node_cover=grc_pos_node_cover_copy, pos_labels=grc_pos_labels_copy, tag_frequencies=tag_frequencies_target)
-    #_, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_heb, node_cover=heb_pos_node_cover_copy, pos_labels=heb_pos_labels_copy, tag_frequencies=tag_frequencies_target)
-    #_, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_blinker, node_cover=blinker_pos_node_cover_copy, pos_labels=blinker_pos_labels_copy, tag_frequencies=tag_frequencies_target)
+    _, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_train, encoder_class, node_cover=train_pos_node_cover_copy, pos_labels=train_pos_labels_copy)
+    _, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_grc, encoder_class, node_cover=grc_pos_node_cover_copy, pos_labels=grc_pos_labels_copy, tag_frequencies=tag_frequencies_target)
+    _, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_heb, encoder_class, node_cover=heb_pos_node_cover_copy, pos_labels=heb_pos_labels_copy, tag_frequencies=tag_frequencies_target)
+    _, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_blinker, encoder_class, node_cover=blinker_pos_node_cover_copy, pos_labels=blinker_pos_labels_copy, tag_frequencies=tag_frequencies_target)
 
-    _, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_blinker, encoder_class, node_cover=blinker_pos_node_cover_copy, pos_labels=blinker_pos_labels_copy)
+    #_, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_blinker, encoder_class, node_cover=blinker_pos_node_cover_copy, pos_labels=blinker_pos_labels_copy)
 
     tag_frequencies += tag_frequencies_target
     return tag_frequencies, tag_frequencies_target, train_pos_node_cover_copy, train_pos_labels_copy, grc_pos_node_cover_copy, grc_pos_labels_copy, heb_pos_node_cover_copy, heb_pos_labels_copy, blinker_pos_node_cover_copy, blinker_pos_labels_copy
