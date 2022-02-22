@@ -1,3 +1,5 @@
+POS EVALUATION
+
 - Bronze training set evaluation via POS tagging
 	- create_train_dev.py : create train and dev sets from Bronze data
 	- pos_tagger.py : BiLSTM+CRF, Fasttext embeddings + Character embeddings
