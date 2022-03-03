@@ -134,8 +134,8 @@ def update_trainset_with_predictions(node_cover, pos_labels, padding, index, max
 
     index_global = index + padding
     node_cover.extend(index_global.tolist())
-    #pos_labels[index_global, pos_tags] = 1
-    pos_labels[index_global, max_tag_number1] = 1
+    pos_labels[index_global, pos_tags] = 1
+    #pos_labels[index_global, max_tag_number1] = 1
 
 # This function iterates a dataset to creates the tag vectors and update training structures
 # for source languages call once
