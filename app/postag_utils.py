@@ -99,10 +99,10 @@ def update_trainset_with_predictions(node_cover, pos_labels, padding, index, max
     pos_tags = pos_tags.to('cpu')
     index = index.to('cpu')
     pos_labels = pos_labels.to('cpu')
-    #accepted_values = max_values > target_train_treshold
-    #index = index[accepted_values]
-    #pos_tags = pos_tags[accepted_values]
-    #word_pos = word_pos[accepted_values]
+    accepted_values = max_values > target_train_treshold
+    index = index[accepted_values]
+    pos_tags = pos_tags[accepted_values]
+    word_pos = word_pos[accepted_values]
 
     ## I should filter high repetition words here!
     #word_added_to_train_freq[word_pos.long()] += 1
@@ -209,7 +209,7 @@ def get_tag_frequencies_node_tags(model, editions, train_node_cover, train_label
         get_words_tag_frequence(model, 2354770, class_count, target_data_loader_heb, encoder_class, node_cover=None if type_check else heb_pos_node_cover_copy, pos_labels=heb_pos_labels_copy, tag_frequencies=tag_frequencies_target, target_train_treshold=target_train_treshold)
         get_words_tag_frequence(model, 2354770, class_count, target_data_loader_blinker, encoder_class, node_cover=None if type_check else blinker_pos_node_cover_copy, pos_labels=blinker_pos_labels_copy, tag_frequencies=tag_frequencies_target, target_train_treshold=target_train_treshold)
 
-    #_, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_blinker, encoder_class, node_cover=blinker_pos_node_cover_copy, pos_labels=blinker_pos_labels_copy)
+        #_, tag_frequencies_target = get_words_tag_frequence(model, 2354770, class_count, target_data_loader_blinker, encoder_class, node_cover=None if type_check else train_pos_node_cover_copy, pos_labels=blinker_pos_labels_copy, target_train_treshold=target_train_treshold)
 
     if type_check:
         print('going to pick some training nodes')
