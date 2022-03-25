@@ -5,3 +5,5 @@ POS EVALUATION
 	- pos_tagger.py : BiLSTM+CRF, Fasttext embeddings + Character embeddings
 	- pos_tagger_bert.py : BiLSTM+CRF, BERT embeddings
 - high_res_pos.py : use Flair POS tagger to tag high-resource languages
+- stanza_pipeline.py: use STANZA POS tagger to tag high-resource languages
+
