@@ -1,7 +1,7 @@
 """
 POS tagger with XLMR embeddings
 
-$ python3 pos_tagger_xlmr.py --bronze 1 --lang tam --gpu 5
+$ python3 pos_tagger_xlmr.py --bronze 1 --lang tam --gpu 5 --train --test
 
 """
 from flair.embeddings import StackedEmbeddings, TransformerWordEmbeddings
@@ -20,12 +20,13 @@ def train(bronze, lang, train, test):
     columns = {1: 'text', 3: 'upos'}
 
     # this is the folder in which train, test and dev files reside
-    data_folder = '/mounts/work/silvia/POS'
+    data_folder = ''
     corpus: Corpus = ColumnCorpus(data_folder, 
                                 columns,
+                                # train_file =   '/mounts/work/silvia/POS/'+train,
                                 train_file =   train,
-                                test_file  =   test,
-                                dev_file   =   test,                                
+                                test_file  =   '/nfs/datx/UD/v2_5/'+test,
+                                dev_file   =   '/nfs/datx/UD/v2_5/'+test,                                
                                 comment_symbol="#",
                                 column_delimiter="\t"
                                 )
@@ -58,6 +59,7 @@ def train(bronze, lang, train, test):
     # 7. start training
     trainer.train('resources/taggers/'+lang+'-upos-xlmr-final-bronze'+bronze,
                 learning_rate=0.0001,
+                # learning_rate=0.001,
                 mini_batch_size=256,
                 mini_batch_chunk_size=32,
                 optimizer=AdamW,
@@ -65,6 +67,11 @@ def train(bronze, lang, train, test):
                 patience = 8, # so that it trains for all the 8 epochs, regardless the dev
                 checkpoint=True)
       
+    # load the model to evaluate
+    tagger: SequenceTagger = SequenceTagger.load('resources/taggers/'+lang+'-upos-xlmr-final-bronze'+bronze+'/final-model.pt')
+    # run evaluation procedure
+    result = tagger.evaluate(corpus.test, mini_batch_size=128, out_path=f"predictions.txt", gold_label_type='upos', num_workers=32)
+    print(result) # this is the result to report, the final one.
 
 def main():
     parser = argparse.ArgumentParser()
@@ -80,8 +87,11 @@ def main():
 
     bronze = "bronze"+str(args.bronze)
     lang = args.lang
-    fasttext = args.fasttext
-    train(bronze, lang, fasttext, args.train, args.test)
+    train(bronze, lang, args.train, args.test)
+    print('Model saved in: resources/taggers/'+lang+'-upos-xlmr-final-bronze'+bronze)
+
+
+
 
 
 if __name__ == "__main__":
