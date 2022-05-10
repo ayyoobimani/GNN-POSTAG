@@ -1,19 +1,18 @@
 """
-POS tagger with BERT embeddings
+POS tagger with XLMR embeddings
 
-$ python3 pos_tagger_bert.py --bronze 1 --lang tam --fasttext cc.ta.300.vec --gpu 5
+$ python3 pos_tagger_xlmr.py --bronze 1 --lang tam --gpu 5
 
 """
-from flair.datasets import UD_ENGLISH, UD_FINNISH
-from flair.embeddings import WordEmbeddings, StackedEmbeddings, CharacterEmbeddings, FlairEmbeddings, FastTextEmbeddings, TransformerWordEmbeddings
+from flair.embeddings import StackedEmbeddings, TransformerWordEmbeddings
 from flair.data import Corpus
 from flair.datasets import ColumnCorpus
 from flair.models import SequenceTagger
 from flair.trainers import ModelTrainer
-from flair.data import Sentence
 import os
-import gensim
 import argparse
+from torch.optim import AdamW
+
 
 def train(bronze, lang, fasttext):
 
@@ -36,11 +35,12 @@ def train(bronze, lang, fasttext):
     print(label_dict)
 
     # 4. initialize embeddings
-    embedding_types = [
-        TransformerWordEmbeddings('bert-base-multilingual-cased')
-    ]
+    # embedding_types = [
+    #     TransformerWordEmbeddings('xlm-roberta-base', pooling_operation='first_last') 
+    # ]
 
-    embeddings = StackedEmbeddings(embeddings=embedding_types)
+    # embeddings = StackedEmbeddings(embeddings=embedding_types)
+    embeddings = TransformerWordEmbeddings('xlm-roberta-base', pooling_operation='first_last') 
 
     # 5. initialize sequence tagger
     tagger = SequenceTagger(hidden_size=128,
@@ -54,16 +54,18 @@ def train(bronze, lang, fasttext):
 
     # 7. start training
     trainer.train('resources/taggers/'+lang+'-upos-bert-'+bronze,
-                learning_rate=0.1,
-                mini_batch_size=32,
-                max_epochs=50,
+                learning_rate=0.0001,
+                mini_batch_size=256,
+                mini_batch_chunk_size=32,
+                optimizer=AdamW,
+                max_epochs=50, 
                 checkpoint=True)
+      
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--bronze", default=None, type=int, required=True, help="Specify bronze number [1,2,3]")
     parser.add_argument("--lang", default=None, type=str, required=True, help="Language (3 letters)")
-    parser.add_argument("--fasttext", default=None, type=str, required=True, help="Fasttext file")
     parser.add_argument("--gpu", default=None, type=str, required=True, help="GPU number [0--7]")
     args = parser.parse_args()
 
