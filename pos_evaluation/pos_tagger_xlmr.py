@@ -14,17 +14,20 @@ import argparse
 from torch.optim import AdamW
 
 
-def train(bronze, lang, fasttext):
+def train(bronze, lang, train, test):
 
     # 1. get the corpus
-    columns = {1: 'text', 2: 'upos'}
+    columns = {1: 'text', 3: 'upos'}
 
     # this is the folder in which train, test and dev files reside
     data_folder = '/mounts/work/silvia/POS'
-    corpus: Corpus = ColumnCorpus(data_folder, columns,
-                                train_file =   lang+'_'+bronze+'_train.txt',
-                                test_file  =   lang+'_'+bronze+'_dev.txt',
-                                dev_file   =   lang+'_'+bronze+'_dev.txt',
+    corpus: Corpus = ColumnCorpus(data_folder, 
+                                columns,
+                                train_file =   train,
+                                test_file  =   test,
+                                dev_file   =   test,                                
+                                comment_symbol="#",
+                                column_delimiter="\t"
                                 )
 
     # 2. what label do we want to predict?
@@ -53,12 +56,13 @@ def train(bronze, lang, fasttext):
     trainer = ModelTrainer(tagger, corpus)
 
     # 7. start training
-    trainer.train('resources/taggers/'+lang+'-upos-bert-'+bronze,
+    trainer.train('resources/taggers/'+lang+'-upos-xlmr-final-bronze'+bronze,
                 learning_rate=0.0001,
                 mini_batch_size=256,
                 mini_batch_chunk_size=32,
                 optimizer=AdamW,
-                max_epochs=50, 
+                max_epochs=8,             
+                patience = 8, # so that it trains for all the 8 epochs, regardless the dev
                 checkpoint=True)
       
 
@@ -67,6 +71,8 @@ def main():
     parser.add_argument("--bronze", default=None, type=int, required=True, help="Specify bronze number [1,2,3]")
     parser.add_argument("--lang", default=None, type=str, required=True, help="Language (3 letters)")
     parser.add_argument("--gpu", default=None, type=str, required=True, help="GPU number [0--7]")
+    parser.add_argument("--train", default=None, type=str, required=True, help="train file")
+    parser.add_argument("--test", default=None, type=str, required=True, help="test file")
     args = parser.parse_args()
 
     os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   
@@ -75,7 +81,7 @@ def main():
     bronze = "bronze"+str(args.bronze)
     lang = args.lang
     fasttext = args.fasttext
-    train(bronze, lang, fasttext)
+    train(bronze, lang, fasttext, args.train, args.test)
 
 
 if __name__ == "__main__":
