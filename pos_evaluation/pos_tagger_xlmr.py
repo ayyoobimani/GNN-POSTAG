@@ -3,6 +3,10 @@ POS tagger with XLMR embeddings
 
 $ python3 pos_tagger_xlmr.py --bronze 1 --lang tam --gpu 5 --train --test
 
+Eflomal:
+$ cat hin_eng_eflomal_gdfa_dev.conllu > hin_eng_eflomal_gdfa_all.conllu
+$ cat hin_eng_eflomal_gdfa_train.conllu >> hin_eng_eflomal_gdfa_all.conllu
+$ python3 pos_tagger_xlmr.py --bronze eflomal --lang hin --gpu 0 --train /mounts/work/silvia/POS/eflomal/prova/hin_eng_eflomal_gdfa_all.conllu --test hi_hdtb-ud-test_2_5.conllu
 """
 from flair.embeddings import StackedEmbeddings, TransformerWordEmbeddings
 from flair.data import Corpus
@@ -75,7 +79,7 @@ def train(bronze, lang, train, test):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--bronze", default=None, type=int, required=True, help="Specify bronze number [1,2,3]")
+    parser.add_argument("--bronze", default=None, type=str, required=True, help="Specify bronze number [1,2,3]")
     parser.add_argument("--lang", default=None, type=str, required=True, help="Language (3 letters)")
     parser.add_argument("--gpu", default=None, type=str, required=True, help="GPU number [0--7]")
     parser.add_argument("--train", default=None, type=str, required=True, help="train file")
