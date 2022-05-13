@@ -7,6 +7,8 @@ Eflomal:
 $ cat hin_eng_eflomal_gdfa_dev.conllu > hin_eng_eflomal_gdfa_all.conllu
 $ cat hin_eng_eflomal_gdfa_train.conllu >> hin_eng_eflomal_gdfa_all.conllu
 $ python3 pos_tagger_xlmr.py --bronze eflomal --lang hin --gpu 0 --train /mounts/work/silvia/POS/eflomal/prova/hin_eng_eflomal_gdfa_all.conllu --test hi_hdtb-ud-test_2_5.conllu
+$ python3 pos_tagger_xlmr.py --bronze eflomal --lang por --gpu 1 --train /mounts/work/silvia/POS/eflomal/prova/por_eng_eflomal_gdfa_all.conllu --test pt_bosque-ud-test_2_5.conllu
+$ python3 pos_tagger_xlmr.py --bronze eflomal --lang ind --gpu 1 --train /mounts/work/silvia/POS/eflomal/prova/ind_eng_eflomal_gdfa_all.conllu --test id_gsd-ud-test_2_5.conllu
 """
 from flair.embeddings import StackedEmbeddings, TransformerWordEmbeddings
 from flair.data import Corpus
@@ -61,7 +63,7 @@ def train(bronze, lang, train, test):
     trainer = ModelTrainer(tagger, corpus)
 
     # 7. start training
-    trainer.train('resources/taggers/'+lang+'-upos-xlmr-final-bronze'+bronze,
+    trainer.train('resources/taggers/'+lang+'-upos-xlmr-final-'+bronze,
                 learning_rate=0.0001,
                 # learning_rate=0.001,
                 mini_batch_size=256,
@@ -72,7 +74,7 @@ def train(bronze, lang, train, test):
                 checkpoint=True)
       
     # load the model to evaluate
-    tagger: SequenceTagger = SequenceTagger.load('resources/taggers/'+lang+'-upos-xlmr-final-bronze'+bronze+'/final-model.pt')
+    tagger: SequenceTagger = SequenceTagger.load('resources/taggers/'+lang+'-upos-xlmr-final-'+bronze+'/final-model.pt')
     # run evaluation procedure
     result = tagger.evaluate(corpus.test, mini_batch_size=128, out_path=f"predictions.txt", gold_label_type='upos', num_workers=32)
     print(result) # this is the result to report, the final one.

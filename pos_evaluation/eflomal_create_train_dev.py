@@ -91,10 +91,10 @@ def create_pos_with_aligns(out_folder, lang_list, prfs, cover, all_trg_sents, al
 		
 		# Use POS tagged high-resource files
 		all_tags[prf] = {}
-
 		# with codecs.open(F"data/pbc_yo/raw_tagged/{lang[:3]}.conllu", "r", "utf-8") as lang_pos:
 		# with codecs.open(F"data/pbc_yor_10/all_pos_tags/{lang}.conllu", "r", "utf-8") as lang_pos:
-		with codecs.open(F"/mounts/work/mjalili/projects/flair_pos_tagger/data/pbc_yor_10/all_pos_tags/{lang}.conllu", "r", "utf-8") as lang_pos:
+		# with codecs.open(F"/mounts/work/mjalili/projects/flair_pos_tagger/data/pbc_yor_10/all_pos_tags/{lang}.conllu", "r", "utf-8") as lang_pos:
+		with codecs.open(F"/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/{lang}.conllu", "r", "utf-8") as lang_pos:
 			# print(F"{lang}.conllu")
 			tag_sent = []
 			sent_id = ""
@@ -109,7 +109,8 @@ def create_pos_with_aligns(out_folder, lang_list, prfs, cover, all_trg_sents, al
 					all_tags[prf][sent_id] = [p[3] for p in tag_sent]
 					tag_sent = []
 					sent_id = ""
-				elif "# verse_id" in sline:
+				# elif "# verse_id" in sline:
+				elif "# sent_id" in sline:
 					sent_id = sline.split()[-1]
 				elif sline[0] == "#":
 					continue
@@ -145,8 +146,20 @@ def create_pos_with_aligns(out_folder, lang_list, prfs, cover, all_trg_sents, al
 		for lang, sid in cover[verse]:
 			# print(lang)
 			if verse not in all_aligns[lang]: continue
-			for al_pair in all_aligns[lang][verse]:
-				trg_tags[al_pair[0][1]][all_tags[lang][verse][al_pair[0][0]]] += al_pair[1][0]
+			try:
+				for al_pair in all_aligns[lang][verse]:
+					
+					# if len(al_pair)<2:
+					# 	continue
+					trg_tags[al_pair[0][1]][all_tags[lang][verse][al_pair[0][0]]] += al_pair[1][0]
+			except:
+				print(al_pair[0][1])
+				print(al_pair[1][0])
+				print("al_pair[0][0] ",al_pair[0][0])
+				# print(all_tags[lang])
+				print(all_tags[lang][verse])
+				# print(all_tags[lang][verse][al_pair[0][0]]) # error
+				# print(trg_tags[al_pair[0][1]][all_tags[lang][verse][al_pair[0][0]]])
 
 		trg_tags = [max(trg_tags[i], key=lambda x: (trg_tags[i][x], x) if x != "X" else (-1.0, "X")) for i in range(len(trg_tags))]
 
