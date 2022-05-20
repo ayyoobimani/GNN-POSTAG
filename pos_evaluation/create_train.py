@@ -23,7 +23,8 @@ import argparse
 postag_map = {"ADJ": 0, "ADP": 1, "ADV": 2, "AUX": 3, "CCONJ": 4, "DET": 5, "INTJ": 6, "NOUN": 7, "NUM": 8, "PART": 9, "PRON": 10, 
 "PROPN": 11, "PUNCT": 12, "SCONJ": 13, "SYM": 14, "VERB": 15, "X": 16, "***": 17}
 postag_reverse_map = {item[1]:item[0] for item in postag_map.items()}
-source_distr = torch.load('/mounts/data/proj/ayyoob/POS_tagging/dataset/small/distributions.torch.bin')
+# source_distr = torch.load('/mounts/data/proj/ayyoob/POS_tagging/dataset/small/distributions.torch.bin')
+source_distr = torch.load('/mounts/data/proj/ayyoob/POS_tagging/dataset/small_final/distributions_all.torch.bin')
 # Checking for trivial POS types
 # REGEX for numbers, punctuation marks and symbols
 REGEX_DIGIT = '[\d٠١٢٣٤٥٦٧٨٩౦౧౨౩౪౫౬౭౮౯፲፳፴፵፶፷፸፹፺፻०१२३४५६७८९४零一二三四五六七八九十百千万億兆つ]'
@@ -116,7 +117,11 @@ def read_our_bronze_file_source(f_path, bible_file_name, threshold, lang):
         for item in data[sent]:
             
             type = sentences[sent][item[0]]
-            p_type_tag = source[type][item[1]] # distribution of tags
+            try:
+                p_type_tag = source[type][item[1]] # distribution of tags
+            except:
+                print("Missing: ", item)
+                p_type_tag = 1
 
             # strong constraint
             # if p_type_tag <= 0.3:
@@ -248,15 +253,15 @@ def main():
     parser.add_argument("--bible", default=None, type=str, required=True, help="Specify bible file")
     parser.add_argument("--lang", default=None, type=str, required=True, help="Language (3 letters)")
     parser.add_argument("--thr", default=None, type=float, required=True, help="Threshold for filtering")
-    parser.add_argument("--base_path", default=None, type=str, required=False, help="Threshold for filtering")
+    parser.add_argument("--base_path", default=None, type=str, required=False, help="Base path")
     args = parser.parse_args()
 
     bronze, bronze_out = read_our_bronze_file_source(args.bronze_file, args.bible, args.thr, args.lang) 
     base_path = "/mounts/work/silvia/POS/filter/"
     if args.base_path:
-        base_path = args.based_path
-    print(f"Output file: {base_path+args.lang+str(args.thr)}.conllu")
-    struct_to_file(bronze_out, args.bible, base_path+args.lang+str(args.thr)+".conllu", density=0)
+        base_path = args.base_path
+    print(f"Output file: {base_path+args.lang}_bronze{args.bronze}_{str(args.thr)}.conllu")
+    struct_to_file(bronze_out, args.bible, base_path+args.lang+"_bronze"+str(args.bronze)+"_"+str(args.thr)+".conllu", density=0)
 
 if __name__ == "__main__":
     main()

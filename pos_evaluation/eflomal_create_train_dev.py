@@ -81,7 +81,7 @@ def create_pos_with_aligns(out_folder, lang_list, prfs, cover, all_trg_sents, al
 				aligns = [[((int(p[0]), int(p[1])), [float(x) for x in p[2:]]) for p in l] for l in aligns]
 			else:
 				aligns = [[((int(p[0]), int(p[1])), [1.0]) for p in l] for l in aligns]
-
+			
 			# map to verses
 			if "gnn" in align_path:
 				all_aligns[prf] = aligns
@@ -166,6 +166,9 @@ def create_pos_with_aligns(out_folder, lang_list, prfs, cover, all_trg_sents, al
 		# if sum([1 if tag == "X" else 0 for tag in trg_tags]) > 0.5 * len(trg_tags):
 		# 	continue
 
+		if len(trg_sent)>80:
+			print("Too long: ", " ".join(trg_sent))
+			continue
 		if sent_id < dev_portion:
 			dev_size += 1
 			f_trg_pos_dev.write(F"# verse_id = {verse}\n")
