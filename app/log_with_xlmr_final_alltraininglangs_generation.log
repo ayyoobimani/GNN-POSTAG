@@ -1,0 +1,54 @@
+(1194049, 100)
+2 4085
+4 12
+5 56
+23 22
+24 214
+25 1682
+26 21016
+27 207
+32 25
+33 169
+34 4077
+35 3660
+1.11.0
+done
+0 {'type': 1, 'out_dim': 20, 'global_normalize': False, 'name': 'edit_f', 'Active': True, 'n_classes': 36}
+1 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'position', 'Active': True, 'n_classes': 256}
+2 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function degree_centrality at 0x7f11ba213cb0>', 'Active': True}
+3 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function closeness_centrality at 0x7f11ba203e60>', 'Active': True}
+4 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function betweenness_centrality at 0x7f11ba2030e0>', 'Active': True}
+5 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function newman_betweenness_centrality at 0x7f11ba1a38c0>', 'Active': True}
+6 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function harmonic_centrality at 0x7f11ba19ec20>', 'Active': True}
+7 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'greedy_modularity_community', 'Active': True, 'n_classes': 256}
+8 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'label_propagation_community', 'Active': True, 'n_classes': 256}
+9 {'type': 6, 'out_dim': 100, 'global_normalize': False, 'name': 'word', 'Active': True, 'freeze': False}
+tensor(5424.)
+tensor(1763.)
+tensor(10835.)
+tensor(18305.)
+testing 0
+test, epoch: 0, total:83709 ACC: 0.7527386541471048, loss: 0, confidence: 0.8360589742660522
+testing 0
+test, epoch: 0, total:83709 ACC: 0.7597749345948465, loss: 0, confidence: 0.9003537893295288
+generating data for  por-x-bible-newworld1996 , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_por-x-bible-newworld1996_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  hin-x-bible-bsi , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_hin-x-bible-bsi_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  pes-x-bible-newmillennium2011 , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_pes-x-bible-newmillennium2011_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  tur-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_tur-x-bible-newworld_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  ind-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_ind-x-bible-newworld_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  yor-x-bible-2010 , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_yor-x-bible-2010_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  afr-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_afr-x-bible-newworld_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  amh-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_amh-x-bible-newworld_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  eus-x-bible-navarrolabourdin , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_eus-x-bible-navarrolabourdin_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  bul-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_bul-x-bible-newworld_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  lit-x-bible-ecumenical , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_lit-x-bible-ecumenical_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  tel-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_tel-x-bible_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  bam-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_bam-x-bible_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  bel-x-bible-bokun , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_bel-x-bible-bokun_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  myv-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_myv-x-bible_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  glv-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_glv-x-bible_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  mar-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_mar-x-bible_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  hun-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_hun-x-bible-newworld_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  ell-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_ell-x-bible-newworld_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  heb-x-bible-helfi , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_heb-x-bible-helfi_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  ces-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_ces-x-bible-newworld_15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final.pickle

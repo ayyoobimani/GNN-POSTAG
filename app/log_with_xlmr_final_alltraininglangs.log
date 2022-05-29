@@ -1,0 +1,185 @@
+(1194049, 100)
+2 4085
+4 12
+5 56
+23 22
+24 214
+25 1682
+26 21016
+27 207
+32 25
+33 169
+34 4077
+35 3660
+1.11.0
+done
+0 {'type': 1, 'out_dim': 20, 'global_normalize': False, 'name': 'edit_f', 'Active': True, 'n_classes': 36}
+1 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'position', 'Active': True, 'n_classes': 256}
+2 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function degree_centrality at 0x7f11ba213cb0>', 'Active': True}
+3 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function closeness_centrality at 0x7f11ba203e60>', 'Active': True}
+4 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function betweenness_centrality at 0x7f11ba2030e0>', 'Active': True}
+5 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function newman_betweenness_centrality at 0x7f11ba1a38c0>', 'Active': True}
+6 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function harmonic_centrality at 0x7f11ba19ec20>', 'Active': True}
+7 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'greedy_modularity_community', 'Active': True, 'n_classes': 256}
+8 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'label_propagation_community', 'Active': True, 'n_classes': 256}
+9 {'type': 6, 'out_dim': 100, 'global_normalize': False, 'name': 'word', 'Active': True, 'freeze': False}
+tensor(5424.)
+tensor(1763.)
+tensor(10835.)
+tensor(18305.)
+testing 0
+test, epoch: 0, total:78880 ACC: 0.7564274847870183, loss: 0, confidence: 0.8346657156944275
+0 {'type': 1, 'out_dim': 20, 'global_normalize': False, 'name': 'edit_f', 'Active': True, 'n_classes': 36}
+1 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'position', 'Active': True, 'n_classes': 256}
+2 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function degree_centrality at 0x7f11ba213cb0>', 'Active': True}
+3 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function closeness_centrality at 0x7f11ba203e60>', 'Active': True}
+4 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function betweenness_centrality at 0x7f11ba2030e0>', 'Active': True}
+5 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function newman_betweenness_centrality at 0x7f11ba1a38c0>', 'Active': True}
+6 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function harmonic_centrality at 0x7f11ba19ec20>', 'Active': True}
+7 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'greedy_modularity_community', 'Active': True, 'n_classes': 256}
+8 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'label_propagation_community', 'Active': True, 'n_classes': 256}
+9 {'type': 5, 'out_dim': 1024, 'global_normalize': False, 'name': 'xlmr', 'Active': True, 'in_dim': 1024}
+10 {'type': 5, 'out_dim': 17, 'global_normalize': False, 'name': 'neighbor_tags', 'Active': True, 'in_dim': 17}
+11 {'type': 6, 'out_dim': 17, 'global_normalize': False, 'name': 'tag_priors', 'Active': True, 'freeze': True}
+1194
+len features 12 start time: 20220527-110612
+model params - decoder params - conv1 181330062 156454097
+
+----------------epoch 1 ---------------
+testing 1
+test, epoch: 1, total:78880 ACC: 0.6546526369168357, loss: 0, confidence: 0.7708778381347656
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (inf --> 0.345347).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7214629817444219, loss: 0, confidence: 0.8314465880393982
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.345347 --> 0.278537).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7224771805273834, loss: 0, confidence: 0.8384287357330322
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.278537 --> 0.277523).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7454868154158215, loss: 0, confidence: 0.8568301796913147
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.277523 --> 0.254513).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7439908722109534, loss: 0, confidence: 0.8656958937644958
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 1 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7416075050709939, loss: 0, confidence: 0.8760097622871399
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 2 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7374366125760649, loss: 0, confidence: 0.8725424408912659
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 3 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7420638945233266, loss: 0, confidence: 0.8724521398544312
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 4 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7502789046653144, loss: 0, confidence: 0.8745701313018799
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.254513 --> 0.249721).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.747933569979716, loss: 0, confidence: 0.8747188448905945
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 1 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7483265720081136, loss: 0, confidence: 0.8691681623458862
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 2 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7473884381338742, loss: 0, confidence: 0.8836908340454102
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 3 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7449036511156186, loss: 0, confidence: 0.8921573162078857
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 4 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7517621703853955, loss: 0, confidence: 0.8974944949150085
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.249721 --> 0.248238).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7457403651115618, loss: 0, confidence: 0.8896051645278931
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 1 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7422033468559838, loss: 0, confidence: 0.8860841989517212
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 2 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7490491886409736, loss: 0, confidence: 0.8837806582450867
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 3 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7500633874239351, loss: 0, confidence: 0.890151858329773
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 4 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7505324543610548, loss: 0, confidence: 0.887212872505188
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 5 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7537652129817444, loss: 0, confidence: 0.9054548740386963
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.248238 --> 0.246235).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7447261663286004, loss: 0, confidence: 0.9001950025558472
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 1 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7484787018255578, loss: 0, confidence: 0.8951937556266785
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 2 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7550456389452332, loss: 0, confidence: 0.8934451341629028
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.246235 --> 0.244954).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7530933062880325, loss: 0, confidence: 0.9134610295295715
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 1 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7621957403651115, loss: 0, confidence: 0.900536835193634
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.244954 --> 0.237804).  Saving model ...
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7448656186612576, loss: 0, confidence: 0.9064609408378601
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 1 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7476926977687627, loss: 0, confidence: 0.9131044745445251
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 2 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7521678498985801, loss: 0, confidence: 0.8995305299758911
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 3 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7561866125760649, loss: 0, confidence: 0.9118529558181763
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 4 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7543990872210954, loss: 0, confidence: 0.9113708138465881
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 5 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7492393509127789, loss: 0, confidence: 0.9000184535980225
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 6 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7514452332657201, loss: 0, confidence: 0.9033210873603821
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 7 out of 8
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7579868154158215, loss: 0, confidence: 0.8924015164375305
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 8 out of 8
+Early stopping
+total train loss: 0
+model name 15lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_WITHXLMR_20220527-110612_ElyStpDlta0-GA-chnls1024_small_final
+testing 1
+test, epoch: 1, total:78880 ACC: 0.7621957403651115, loss: 0, confidence: 0.900536835193634
