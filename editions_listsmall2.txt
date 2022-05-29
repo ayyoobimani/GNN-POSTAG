@@ -33,3 +33,4 @@ myv	myv-x-bible
 glv	glv-x-bible
 mar	mar-x-bible
 yor	yor-x-bible-2010
+tam	tam-x-bible-newworld
