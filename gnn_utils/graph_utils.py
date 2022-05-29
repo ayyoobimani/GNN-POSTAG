@@ -11,10 +11,11 @@ import torch_geometric.utils as pyg_utils
 from torch_geometric.data import Data
 import math, tqdm
 from random import  randint, choice
-from karateclub import Node2Vec, AE, Role2Vec
+#from karateclub import Node2Vec, AE, Role2Vec
 from scipy.sparse import csr, coo_matrix
 from networkx.algorithms.community import greedy_modularity_communities, label_propagation_communities, asyn_fluidc
 from multiprocessing import Pool, Manager
+import gc
 
 
 
@@ -26,16 +27,35 @@ def node_nom(verse, editf, tok_nom, node_count, nodes_map, x=None, edit_fs=None,
     utils.setup_dict_entry(nodes_map[editf], verse, {})
     if not tok_nom in nodes_map[editf][verse]:
         nodes_map[editf][verse][tok_nom] = node_count
-        x.append([edit_fs.index(editf), tok_nom]) # TODO we should have better representation 
-        if len(features) == 0:
-            features.extend([OneHotFeature(20, len(edit_fs), 'edit_f'), OneHotFeature(32, 150, 'position')])
-        if tok_nom > 150:
-            print('sequence len: ', tok_nom)
-        # , all_verses.index(verse)/len(all_verses)
-        # x.append([1])
+        x.append([edit_fs.index(editf), tok_nom]) 
+        
         node_count += 1
 
+    if features != None:
+        if len(features) == 0:
+            features.extend([afeatures.OneHotFeature(20, len(edit_fs), 'edit_f'), afeatures.OneHotFeature(32, 150, 'position')])
     return nodes_map[editf][verse][tok_nom], node_count
+
+def setup_node_index(verse, editf, node_count, nodes_map, x, edit_files, tokens):
+    utils.setup_dict_entry(nodes_map, editf, {})
+    utils.setup_dict_entry(nodes_map[editf], verse, {})
+
+    if len(tokens) == 0:
+        return node_count
+
+    if len(nodes_map[editf][verse]) > 0:
+        existing_max = max(nodes_map[editf][verse].keys())
+    else:
+        existing_max = -1
+    
+    incoming_max = max(tokens)
+
+    for tok_nom in range(existing_max+1, incoming_max+1):
+        nodes_map[editf][verse][tok_nom] = node_count
+        x.append([edit_files.index(editf), tok_nom])
+        
+        node_count += 1
+    return node_count
 
 def get_negative_edges(verses, edition_files, nodes_map,  alignments):
     neg_edges = [[],[]]
@@ -67,53 +87,77 @@ def get_negative_edges(verses, edition_files, nodes_map,  alignments):
                         neg_edges[1].extend([n2, n1, n2_, n1_])
     return torch.tensor(neg_edges, dtype=torch.long)
 
-def create_dataset(verses, alignments, edition_files):
-    node_count = 0
-    edges = [[],[]]
-    x = []
-    nodes_map = {}
+def create_dataset(verses, is_gdfa, is_adar, edition_files, save_path):
+    total_nodes = 0
     features = []
+    nodes_map = {}
+    verse_lengthes = {}
+    comunity_lens = {}
+    max_sentece_sizes = {}
     args = []
-    padding = 0
-    utils.LOG.info(f"adding verses")
-    for verse in verses:
+    for vnom, verse in enumerate(verses):
+        if  randint(0,100) == 0:
+            utils.LOG.info(f"creating dataset for verse {verse}")
+        alignments = autils.get_verse_alignments(verse, is_gdfa=is_gdfa, is_adar=is_adar)
+        if alignments == None or len(alignments) < 2:
+            continue
+        node_count = 0
+        max_sentence_size = 0
+        edges = [[],[]]
         x_tmp = []
-        edges_tmp = [[],[]]
-        for i,editf1 in enumerate(edition_files):
-            for j,editf2 in enumerate(edition_files[i+1:]):
-                aligns = autils.get_aligns(editf1, editf2, alignments[verse])
+        for editnom,editf1 in enumerate(edition_files):
+            for j,editf2 in enumerate(edition_files[editnom+1:]):
+                aligns = autils.get_aligns(editf1, editf2, alignments)
                 if aligns != None:
+                    node_count = setup_node_index(verse, editf1, node_count, nodes_map, x_tmp, edition_files, [i[0] for i in aligns])
+                    node_count = setup_node_index(verse, editf2, node_count, nodes_map, x_tmp, edition_files, [i[1] for i in aligns])
                     for align in aligns:
                         n1, node_count = node_nom(verse, editf1, align[0], node_count, nodes_map, x_tmp, edition_files, features)
                         n2, node_count = node_nom(verse, editf2, align[1], node_count, nodes_map, x_tmp, edition_files, features)
-                        edges_tmp[0].extend([n1, n2])
-                        edges_tmp[1].extend([n2, n1])
-        args.append((padding, x_tmp, edges_tmp, verse))
-        #augment_features_addup(args[-1])
-        padding += len(x_tmp)
-        #feat = augment_features_addup(len(x), x_tmp, edges_tmp)
-        #x.extend(x_tmp)
-        edges[0].extend(edges_tmp[0])
-        edges[1].extend(edges_tmp[1])
+                        edges[0].extend([n1, n2])
+                        edges[1].extend([n2, n1])
+                        max_sentence_size = max(max_sentence_size, align[0], align[1])
+        if len(x_tmp) > 0:
+            if not os.path.exists( save_path + f"/verses/{verse}_info.torch.bin"):
+                args.append((x_tmp, edges, verse, save_path))
+            total_nodes += node_count
+            verse_lengthes[verse] = node_count
+            max_sentece_sizes[verse] = max_sentence_size
+        
+        if vnom == 10:
+            found = False
+            
+            for llang in nodes_map:
+                if 'spa' in llang:
+                    found = True
+            print('spain found', found)
+            if not found:
+                exit(0)
 
-        #if verse == verses[0]:
-        #    features.extend(feat)
-    utils.LOG.info('augmenting node features')
-    with Pool(70) as p:
-        res = p.map(augment_features_addup, args)
-
-    features.extend(res[0][0])
-    for item in res :
-        x.extend(item[1])
-
-    #neg_edge_index = get_negative_edges(verses, edition_files, nodes_map, alignments)
-    edge_index = torch.tensor(edges, dtype=torch.long)
-    x = torch.tensor(x, dtype=torch.float)
-    res = Data(x=x, edge_index=edge_index)
-    #res.neg_edge_index = neg_edge_index
+        if vnom % 5000 == 0:
+            gc.collect()
+    
+    res = Data(None, None)
     res.nodes_map = nodes_map
     res.features = features
+    res.total_nodes = total_nodes
+    res.verse_lengthes = verse_lengthes
+    res.community_lens = comunity_lens
+    res.max_sentece_sizes = max_sentece_sizes
+
+    torch.save(res, save_path + f'/dataset_before_featuregeneration{len(verses)}.torch.bin')
+
+    utils.LOG.info(f'augmenting node features, number of sentences: {len(args)}')
+    with Pool(90) as p:
+        res_ = p.map(augment_features_addup, args)
+
+    features.extend(res_[0][0])
+    for i, item in enumerate(res_):
+        comunity_lens[args[i][2]] = item[1]
+        
+    
     return res, nodes_map
+
 
 
 #########################################################
@@ -134,19 +178,22 @@ def concat(vals, x):
     sum = 0
     sd = 0
     
-    for val in vals.items():
-        x[val[0]].append(val[1])
-        sum += val[1]
-        sd += val[1] * val[1]
+    for val in vals.items(): # I add one for cases that value is very close to zero
+        x[val[0]].append(val[1]+1)
+        sum += val[1]+1
+        sd += (val[1]+1) * (val[1]+1)
 
     try:
         mean = sum/len(x)
-        sd = math.sqrt(sd/len(x) - mean*mean)
+        if sd/len(x) - mean*mean <= 0:
+            sd = 1
+        else:
+            sd = math.sqrt(sd/len(x) - mean*mean)
+
         for i in range(len(x)):
             x[i][-1] = (x[i][-1] - mean)/sd
     except Exception as e:
-        print(e)
-        print(len(x), mean, sd)
+        print('#####################', len(x), mean, sd)
         raise e
 
 
@@ -154,25 +201,26 @@ def add_centerality(netx, x, features, centrality_func):
     #utils.LOG.info(f"adding {centrality_func} feature")
     cent = centrality_func(netx)
     concat(cent, x)
-    features.append(FloatFeature(4, f"{centrality_type}"))
+    features.append(FloatFeature(4, f"{centrality_func}"))
 
 def add_node_community(communities, x, features, name):
     #utils.LOG.info(f"adding community {name}")
     for i,com in enumerate(communities):
         for node in com:
             x[node].append(i)
-    
-    #assert len(communities) <= 200
-    if len(communities) > 250:
-        print('communities len: ', len(communities))
 
     features.append(OneHotFeature(32, 250, f'{name}'))
+
+    #assert len(communities) <= 200
+    #if len(communities) > 250:
+    #    print('communities len: ', len(communities))
+    return len(communities)
 
 def augment_features(dataset, x):
     features = []
     netx = pyg_utils.convert.to_networkx(dataset, to_undirected=True)   # TODO add component size featuer
-
-    utils.LOG.info(f"adding centrality features, nodes: {len(list(netx.nodes))}, edges: {len(list(netx.edges))}")
+    if randint(0,100) == 0:
+        utils.LOG.info(f"adding centrality features, nodes: {len(list(netx.nodes))}, edges: {len(list(netx.edges))}")
     add_centerality(netx, x, features, nx.degree_centrality)
     #add_centerality(netx, x, features, nx.katz_centrality)
     add_centerality(netx, x, features, nx.closeness_centrality)
@@ -186,28 +234,29 @@ def augment_features(dataset, x):
     #add_centerality(netx, x, features, nx.percolation_centrality)
     #add_centerality(netx, x, features, nx.second_order_centrality)
 
-    print("creating communities")
+    #print("creating communities")
     c1 = list(greedy_modularity_communities(netx))
-    add_node_community(c1, x, features, 'greedy_modularity_community')
+    len1 = add_node_community(c1, x, features, 'greedy_modularity_community')
     c3 = list(label_propagation_communities(netx))
-    add_node_community(c3, x, features, 'label_propagation_community')
-
-    return features
+    len2 = add_node_community(c3, x, features, 'label_propagation_community')
+    
+    return features, max(len1, len2)
 
 def augment_features_addup(args):
-    padding, x_tmp, edges_tmp, verse = args
+    x_tmp, edges_tmp, verse, save_path = args
     
-    edge_index = torch.tensor(edges_tmp, dtype=torch.long) - padding
+    edge_index = torch.tensor(edges_tmp, dtype=torch.long)
     x = torch.tensor(x_tmp, dtype=torch.float)
     dataset = Data(x=x, edge_index=edge_index)    
     
     try:
-        features = augment_features(dataset, x_tmp)
+        features, max_community_len = augment_features(dataset, x_tmp)
     except Exception as e:
         print(verse)
         raise e
 
-    return features, x_tmp
+    torch.save({'padding':0, 'x':x_tmp, 'edge_index':edges_tmp}, save_path + f"/verses/{verse}_info.torch.bin")
+    return features, max_community_len
 
 def embedding_features(args):
     edges, node_count, rows, cols, features = args
@@ -439,3 +488,5 @@ def get_negative_edges_seq(nodes_map):
                     res_edges[1].extend([n2,n1])
             
     return torch.tensor(res_edges, dtype=torch.long)
+
+
