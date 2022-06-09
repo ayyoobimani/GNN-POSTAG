@@ -8,9 +8,9 @@ pol	pol-x-bible-newworld
 swe	swe-x-bible-newworld
 ita	ita-x-bible-2009
 fra	fra-x-bible-louissegond
-spa	spa-x-bible-hablahoi-latina
+spa	spa-x-bible-newworld
 zho	zho-x-bible-newworld
-arb	arb-x-bibletam	tam-x-bible-newworld
+arb	arb-x-bible
 urd	urd-x-bible-2007
 hun	hun-x-bible-newworld
 ell	ell-x-bible-newworld
@@ -20,7 +20,7 @@ afr	afr-x-bible-newworld
 amh	amh-x-bible-newworld
 eus	eus-x-bible-navarrolabourdin
 bul	bul-x-bible-newworld
-hin1	hin-x-bible-bsi
+hin	hin-x-bible-bsi
 ind	ind-x-bible-newworld
 lit	lit-x-bible-ecumenical
 pes	pes-x-bible-newmillennium2011

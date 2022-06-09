@@ -3,221 +3,219 @@
 # %%
 import torch, sys
 sys.path.insert(0, '../')
-from my_utils import gpu_utils
 import importlib
 import gc
 from my_utils import align_utils as autils, utils
 from my_utils.alignment_features import *
 from tqdm import tqdm
-run = 0
-from tqdm import tqdm
-from gnn_utils import eval_utils
-
-
-# %%
-# !pip install torch-geometric
-# !pip install tensorboardX
-
-# !wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-# !unzip ngrok-stable-linux-amd64.zip
-
-#  print(torch.version.cuda)
-#  print(torch.__version__)    
-
-dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-free_gpu1 = '6'
-free_gpu2 = '5'
-
-
-# %%
-
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
-import torch_geometric.nn as pyg_nn
-import torch_geometric.utils as pyg_utils
+def remove_bad_editions(editions_list):
+    bad_editions = []
 
-import time
-from datetime import datetime
+    for edition in editions_list:
+        total_tokens = 0
+        total_lines = 0
+        try:
+            with open(f'/nfs/datc/pbc/{edition}.txt') as fi:
+                for i,line in enumerate(fi):
+                    if i>10:
+                        total_tokens += len(list(line.split()))
+                        total_lines += 1
+            
+            if total_tokens/total_lines<10:
+                bad_editions.append[edition]
+                #print(edition, total_tokens, total_lines)
+        except:
+            print('couldn\'t open edition', edition)
 
-import networkx as nx
-import numpy as np
-import torch
-import torch.optim as optim
-
-from torch_geometric.datasets import TUDataset
-from torch_geometric.datasets import Planetoid
-from torch_geometric.data import DataLoader
-
-import torch_geometric.transforms as T
-
-from tensorboardX import SummaryWriter
-from sklearn.manifold import TSNE
-# import matplotlib.pyplot as plt
-
-
+    if len(bad_editions) > 0:
+        print('!!!WARNING!!!     The following files are not tokenized properly. deleting them...')
+        print(bad_editions)
+        for edition in bad_editions:
+            editions_list.remove(edition)
+    
+def get_verse_list(file):
+    res = []
+    with open(file, 'r') as inf:
+        for line in inf:
+            res.append(line.strip())
+    return res
 
 # %%
 import argparse
-from multiprocessing import Pool
 
-# set random seed
-config_file = "/mounts/Users/student/ayyoob/Dokumente/code/pbc-ui-demo/config_pbc.ini"
+config_file = "/mounts/Users/student/ayyoob/Dokumente/code/POS-TAGGING/config_pos.ini"
 utils.setup(config_file)
 
 params = argparse.Namespace()
-#params.editions_file =  "/mounts/Users/student/ayyoob/Dokumente/code/pbc_utils/data/eng_fra_pbc/lang_list.txt"
+params.editions_file =  "/mounts/Users/student/ayyoob/Dokumente/code/POS-TAGGING/editions_listsmall2.txt"
+utils.graph_dataset_path =  '/mounts/data/proj/ayyoob/POS_tagging/dataset/'
 
-#params.gold_file = "/mounts/Users/student/ayyoob/Dokumente/code/pbc_utils/data/eng_fra_pbc/eng-fra.gold"
-#params.gold_file = "/mounts/Users/student/ayyoob/Dokumente/code/pbc_utils/data/helfi/splits/helfi-heb-fin-gold-alignments_test.txt"
-
-params.gold_file = "/mounts/Users/student/ayyoob/Dokumente/code/pbc_utils/data/helfi/splits/helfi-grc-fin-gold-alignments_train.txt"
-pros, surs = autils.load_gold(params.gold_file)
-all_verses = list(pros.keys())
-params.gold_file = "/mounts/Users/student/ayyoob/Dokumente/code/pbc_utils/data/helfi/splits/helfi-heb-fin-gold-alignments_train.txt"
-pros, surs = autils.load_gold(params.gold_file)
-all_verses.extend(list(pros.keys()))
-all_verses = list(set(all_verses))
-print(len(all_verses))
-
-params.editions_file =  "/mounts/Users/student/ayyoob/Dokumente/code/pbc_utils/data/helfi/splits/helfi_lang_list.txt"
 editions, langs = autils.load_simalign_editions(params.editions_file)
 current_editions = [editions[lang] for lang in langs]
+remove_bad_editions(current_editions)
 
-def get_pruned_verse_alignments(args):
-    verse, current_editions = args
-    print(verse)
-    verse_aligns_inter = autils.get_verse_alignments(verse)
-    verse_aligns_gdfa = autils.get_verse_alignments(verse, gdfa=True)
-
-    autils.prune_non_necessary_alignments(verse_aligns_inter, current_editions)
-    autils.prune_non_necessary_alignments(verse_aligns_gdfa, current_editions)
-
-    gc.collect()
-    return verse_aligns_inter, verse_aligns_gdfa
-    
-
-#verse_alignments_inter = {}
-#verse_alignments_gdfa = {}
-#args = []
-#for i,verse in enumerate(all_verses):
-#    args.append((verse, current_editions[:]))
-
-#print('going to get alignments')
-#with Pool(80) as p:
-#    all_res = p.map(get_pruned_verse_alignments, args)
-
-#for i,verse in enumerate(all_verses):
-#    verse_aligns_inter, verse_aligns_gdfa = all_res[i]
-    
-#    verse_alignments_inter[verse] = verse_aligns_inter
-#    verse_alignments_gdfa[verse] = verse_aligns_gdfa
-
-#for verse in all_verses[:]:
-#    if len(verse_alignments_inter[verse].keys()) < 10:
-#        all_verses.remove(verse)
-
-#torch.save(all_verses, 'all_verses.pickle')
-
-utils.LOG.info("done")
+all_verses = get_verse_list(utils.config_dir + f"/verse_list.txt")
 
 
 # %%
-import pickle
 import gnn_utils.graph_utils as gutil
 importlib.reload(gutil)
 sys.setrecursionlimit(100000)
 
-train_verses = all_verses[:]
-test_verses = all_verses[:]
-editf1 = "eng-x-bible-mixed"
-editf2 = 'fra-x-bible-louissegond'
+path_ext = '/inter'
+gdfa = False
+adar = False
+small = True
+if gdfa:
+    path_ext = '/gdfa_final'
+elif adar:
+    if small:
+        path_ext = '/small_adar_final'
+    else:
+        path_ext = '/adar_final'
+elif small:
+    path_ext = '/small_final'
 
-small_editions = current_editions[:]
-#if editf1 not in small_editions:
-#    small_editions.append[editf1]
-#if editf2 not in small_editions:
-#    small_editions.append(editf2)
+#train_dataset, train_nodes_map = gutil.create_dataset(all_verses, gdfa, adar, current_editions, utils.graph_dataset_path + path_ext)
 
-if 'jpn-x-bible-newworld' in small_editions:
-    small_editions.remove('jpn-x-bible-newworld')
-if 'grc-x-bible-unaccented' in small_editions:
-    small_editions.remove('grc-x-bible-unaccented')
+#torch.save(train_dataset, utils.graph_dataset_path + f"{path_ext}/dataset_forpos.torch.bin")
+#train_dataset = torch.load(utils.graph_dataset_path + f"{path_ext}/dataset_forpos.torch.bin")
+#features = train_dataset.features
+#train_nodes_map = train_dataset.nodes_map
+
+#exit(0)
+# %%
+# This cell is to fix the dataset object if it has been created by multiple calls to create_dataset function and some community lengths and features are missing
+#import os
+
+#failed_tocreate_verses = []
+#for verse in tqdm(train_dataset.max_sentece_sizes.keys()):
+#    if verse not in train_dataset.community_lens and os.path.exists(utils.graph_dataset_path + path_ext + f"/verses/{verse}_info.torch.bin"):
+#        verse_info = torch.load(utils.graph_dataset_path + path_ext + f"/verses/{verse}_info.torch.bin")
+#        train_dataset.community_lens[verse] = torch.max(torch.tensor(verse_info['x'])[:, 7:])
+#    elif verse in train_dataset.community_lens:
+#        pass
+#    else:
+#        failed_tocreate_verses.append(verse)
+
+#train_dataset.failed_tocreate_verses = failed_tocreate_verses
+#print('failed to create: ', len(failed_tocreate_verses))
+
+#torch.save(train_dataset, utils.graph_dataset_path + f"{path_ext}/dataset_forpos1_new.torch.bin")
 
 
-#train_dataset = torch.load("/mounts/work/ayyoob/models/gnn/dataset_eng_fra_full_community.pickle")
-train_dataset, train_nodes_map = gutil.create_dataset(train_verses, verse_alignments_inter, small_editions)
-torch.save(train_dataset, "/mounts/work/ayyoob/models/gnn/dataset_helfi_train_community.pickle")
-features = train_dataset.features
-train_nodes_map = train_dataset.nodes_map
-#edge_index_intra_sent = train_dataset.edge_index_intra_sent
-#test_edge_index_intra_sent = edge_index_intra_sent
+#exit(0)
+# %%
+# to set proper verse_len and community_len in the corresponding features and filter verses with bigger values
 
-# test_dataset, test_nodes_map = create_dataset(test_verses, verse_alignments_inter, small_editions)
-test_dataset, test_nodes_map = train_dataset, train_nodes_map
-test_verses = train_verses
-print(train_dataset.x.shape, train_dataset.edge_index.shape, len(train_dataset.features))
+#from pprint import pprint
+#for feat in train_dataset.features:
+#    print(vars(feat))
 
-# augment_features(test_dataset)
+#max_community_len = 255
+#max_verse_len = 255
 
-# x_edge, features_edge = create_edge_attribs(train_nodes_map, train_verses, small_editions, verse_alignments_inter, train_dataset.x.shape[0])
-# with open("./dataset.pickle", 'wb') as of:
-#     pickle.dump(train_dataset, of)
+#refused_verses = set()
+#accepted_verses = set()
+#def set_max_sentence_and_community(train_dataset):
 
+
+#    for verse, sl in train_dataset.max_sentece_sizes.items():
+#        if sl >max_community_len:
+#            refused_verses.add(verse)
+
+
+#    for verse,cl in train_dataset.community_lens.items():
+#        if cl > max_community_len:
+#            refused_verses.add(verse)
+
+#    for verse in train_dataset.community_lens.keys():
+#        if verse not in refused_verses:
+#            accepted_verses.add(verse)
+
+#    max_sentence = max(train_dataset.max_sentece_sizes.values())
+#    max_community = max(train_dataset.community_lens.values())
+#    print('dataset\'s max sentence len', max_sentence)
+#    print('dataset\'s max community len: ', max_community)
+
+
+#set_max_sentence_and_community(train_dataset)
+#print(refused_verses)
+#print('len refused verses:', len(refused_verses))
+#print('verse count', len(train_dataset.community_lens))
+#print('accepted verse count: ', len(accepted_verses))
+
+#train_dataset.refused_verses = list(refused_verses)
+#train_dataset.accepted_verses = list(accepted_verses)
+#train_dataset.features[1].n_classes = max_verse_len + 1
+#train_dataset.features[7].n_classes = max_community_len + 1
+#train_dataset.features[8].n_classes = max_community_len + 1
+#torch.save(train_dataset, utils.graph_dataset_path + f"{path_ext}/dataset_forpos_fixlens.torch.bin")
+#exit(0)
+train_dataset = torch.load(utils.graph_dataset_path + f"{path_ext}/dataset_forpos_fixlens.torch.bin")
+
+
+    
 
 # %%
 #run on delta, extract w2v features
 sys.path.insert(0, '../')
-import pickle
+import pickle, os
 from gensim.models import Word2Vec
 from app import document_retrieval
-from my_utils import utils
-config_file = "/mounts/Users/student/ayyoob/Dokumente/code/pbc-ui-demo/config_pbc.ini"
-utils.setup(config_file)
-import torch
 import my_utils.alignment_features as feat_utils
 importlib.reload(document_retrieval)
+from random import randint
 
 doc_retriever = document_retrieval.DocumentRetriever()
 
-#model_w2v = Word2Vec.load("/mounts/work/ayyoob/models/w2v/word2vec_helfi_langs_15e.model")
-train_dataset = torch.load("/mounts/work/ayyoob/models/gnn/dataset_helfi_grc_test_community.pickle")
+model_w2v = Word2Vec.load("/mounts/work/ayyoob/models/w2v/word2vec_POS_small_final_langs_10e.model")
 nodes_map = train_dataset.nodes_map
 
-x = [[] for i in range(train_dataset.x.shape[0])]
-for edition_f in nodes_map:
-    utils.LOG.info(f"processing edition {edition_f}")
-    for verse in nodes_map[edition_f]:         #toknom nodecount
-        line = doc_retriever.retrieve_document(f'{verse}@{edition_f}')
-        line = line.strip().split()
+non_existing_verses = []
+for verse in tqdm(train_dataset.verse_lengthes.keys()):
+    if (os.path.exists(utils.graph_dataset_path + path_ext + f"/verses/{verse}_info.torch.bin")
+        and os.path.getsize(utils.graph_dataset_path + path_ext + f"/verses/{verse}_info.torch.bin") > 0):
+        
+        verse_info = torch.load( utils.graph_dataset_path + path_ext + f"/verses/{verse}_info.torch.bin")
+        
+        x = verse_info['x']
+        
+        if not torch.is_tensor(x) or x.size(1) < 10:
+            if torch.is_tensor(x):
+                x = x.tolist()
+            for edition_f in nodes_map:
+                if verse in nodes_map[edition_f]:
+                    line = doc_retriever.retrieve_document(f'{verse}@{edition_f}')
+                    line = line.strip().split()
 
-        for tok in nodes_map[edition_f][verse]:
-            w_emb = model_w2v.wv.key_to_index[f'{edition_f[:3]}:{line[tok]}']
-            x[nodes_map[edition_f][verse][tok]].extend([w_emb])
+                    for tok in nodes_map[edition_f][verse]:
+                        w_emb = model_w2v.wv.key_to_index[f'{edition_f[:3]}:{line[tok]}']
+                        x[nodes_map[edition_f][verse][tok]].extend([w_emb])
 
-x = torch.tensor(x, dtype=torch.float)
-train_dataset.x = torch.cat((train_dataset.x[:, :-100], x), dim=1)
-train_dataset.features.pop()
+            
+            verse_info['x'] = torch.tensor(x, dtype=torch.float)
+            torch.save(verse_info, utils.graph_dataset_path + path_ext + f"/verses/{verse}_info.torch.bin")
+    else:
+        non_existing_verses.append(verse)
+    
+# train_dataset.features.pop()
 train_dataset.features.append(feat_utils.MappingFeature(100, 'word'))
 
-print(x.shape, train_dataset.x.shape, len(train_dataset.features))
+print(verse_info['x'].shape, len(train_dataset.features))
+if len(non_existing_verses) > 0:
+    print('!!!WARNING!!! very bad news, these verses not found: ', non_existing_verses)
 
-torch.save(train_dataset, "/mounts/work/ayyoob/models/gnn/dataset_helfi_grc_test_community_word.pickle")
+torch.save(train_dataset, utils.graph_dataset_path +  f'{path_ext}/dataset_forpos1_word.torch.bin') #europarl
 print('done adding w2v features')
-
-# %%
-train_dataset = torch.load("/mounts/work/ayyoob/models/gnn/dataset_helfi_grc_test_community.pickle")
 
 # %%
 features = train_dataset.features[:]
 from pprint import pprint
 
-print(train_dataset.x.shape)
-for i in features:
-    print(vars(i))
 
-print(train_dataset.nodes_map['eng-x-bible-mixed'].keys())
 # %%
 nodes_map = train_dataset.nodes_map
 bad_edition_files = []

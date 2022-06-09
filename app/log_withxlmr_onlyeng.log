@@ -1,0 +1,134 @@
+(1194049, 100)
+2 4085
+4 12
+5 56
+23 22
+24 214
+25 1682
+26 21016
+27 207
+32 25
+33 169
+34 4077
+35 3660
+1.11.0
+done
+0 {'type': 1, 'out_dim': 20, 'global_normalize': False, 'name': 'edit_f', 'Active': True, 'n_classes': 36}
+1 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'position', 'Active': True, 'n_classes': 256}
+2 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function degree_centrality at 0x7f11ba213cb0>', 'Active': True}
+3 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function closeness_centrality at 0x7f11ba203e60>', 'Active': True}
+4 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function betweenness_centrality at 0x7f11ba2030e0>', 'Active': True}
+5 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function newman_betweenness_centrality at 0x7f11ba1a38c0>', 'Active': True}
+6 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function harmonic_centrality at 0x7f11ba19ec20>', 'Active': True}
+7 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'greedy_modularity_community', 'Active': True, 'n_classes': 256}
+8 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'label_propagation_community', 'Active': True, 'n_classes': 256}
+9 {'type': 6, 'out_dim': 100, 'global_normalize': False, 'name': 'word', 'Active': True, 'freeze': False}
+tensor(5424.)
+tensor(1763.)
+tensor(10835.)
+tensor(18305.)
+testing 0
+test, epoch: 0, total:82811 ACC: 0.6901740106990617, loss: 0, confidence: 0.8760601282119751
+0 {'type': 1, 'out_dim': 20, 'global_normalize': False, 'name': 'edit_f', 'Active': True, 'n_classes': 36}
+1 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'position', 'Active': True, 'n_classes': 256}
+2 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function degree_centrality at 0x7f11ba213cb0>', 'Active': True}
+3 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function closeness_centrality at 0x7f11ba203e60>', 'Active': True}
+4 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function betweenness_centrality at 0x7f11ba2030e0>', 'Active': True}
+5 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function newman_betweenness_centrality at 0x7f11ba1a38c0>', 'Active': True}
+6 {'type': 3, 'out_dim': 4, 'global_normalize': False, 'name': '<function harmonic_centrality at 0x7f11ba19ec20>', 'Active': True}
+7 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'greedy_modularity_community', 'Active': True, 'n_classes': 256}
+8 {'type': 1, 'out_dim': 32, 'global_normalize': False, 'name': 'label_propagation_community', 'Active': True, 'n_classes': 256}
+9 {'type': 5, 'out_dim': 1024, 'global_normalize': False, 'name': 'xlmr', 'Active': True, 'in_dim': 1024}
+10 {'type': 5, 'out_dim': 17, 'global_normalize': False, 'name': 'neighbor_tags', 'Active': True, 'in_dim': 17}
+11 {'type': 6, 'out_dim': 17, 'global_normalize': False, 'name': 'tag_priors', 'Active': True, 'freeze': True}
+1194
+len features 12 start time: 20220528-014910
+model params - decoder params - conv1 181330062 156454097
+
+----------------epoch 1 ---------------
+testing 1
+test, epoch: 1, total:82811 ACC: 0.619579524459311, loss: 0, confidence: 0.8410022854804993
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (inf --> 0.380420).  Saving model ...
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6798734467643187, loss: 0, confidence: 0.8776499629020691
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.380420 --> 0.320127).  Saving model ...
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6792575865525111, loss: 0, confidence: 0.9118784666061401
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 1 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6727004866503242, loss: 0, confidence: 0.9145892262458801
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 2 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6901498593182065, loss: 0, confidence: 0.9107101559638977
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.320127 --> 0.309850).  Saving model ...
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6998707901124247, loss: 0, confidence: 0.906868040561676
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.309850 --> 0.300129).  Saving model ...
+testing 1
+test, epoch: 1, total:82811 ACC: 0.7145427539819589, loss: 0, confidence: 0.9348376989364624
+----------------------------------------------------------------------------------------------------------
+Validation loss decreased (0.300129 --> 0.285457).  Saving model ...
+testing 1
+test, epoch: 1, total:82811 ACC: 0.7126468705848257, loss: 0, confidence: 0.9379703998565674
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 1 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.7062105275869148, loss: 0, confidence: 0.9278416037559509
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 2 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6918042289067877, loss: 0, confidence: 0.9360163807868958
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 3 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.689715134462813, loss: 0, confidence: 0.9380291700363159
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 4 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6956805255340474, loss: 0, confidence: 0.950447142124176
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 5 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.7028897127193248, loss: 0, confidence: 0.9525019526481628
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 6 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6950042868701019, loss: 0, confidence: 0.9345566630363464
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 7 out of 8
+testing 1
+test, epoch: 1, total:82811 ACC: 0.6975884846216083, loss: 0, confidence: 0.9322605729103088
+----------------------------------------------------------------------------------------------------------
+EarlyStopping counter: 8 out of 8
+Early stopping
+total train loss: 0
+model name 1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final
+testing 1
+test, epoch: 1, total:82811 ACC: 0.7145427539819589, loss: 0, confidence: 0.9348376989364624
+generating data for  por-x-bible-newworld1996 , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_por-x-bible-newworld1996_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  hin-x-bible-bsi , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_hin-x-bible-bsi_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  pes-x-bible-newmillennium2011 , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_pes-x-bible-newmillennium2011_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  tur-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_tur-x-bible-newworld_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  ind-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_ind-x-bible-newworld_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  yor-x-bible-2010 , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_yor-x-bible-2010_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  afr-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_afr-x-bible-newworld_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  amh-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_amh-x-bible-newworld_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  eus-x-bible-navarrolabourdin , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_eus-x-bible-navarrolabourdin_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  bul-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_bul-x-bible-newworld_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  lit-x-bible-ecumenical , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_lit-x-bible-ecumenical_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  tel-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_tel-x-bible_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  bam-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_bam-x-bible_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  bel-x-bible-bokun , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_bel-x-bible-bokun_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  myv-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_myv-x-bible_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  glv-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_glv-x-bible_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  mar-x-bible , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_mar-x-bible_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  hun-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_hun-x-bible-newworld_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  ell-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_ell-x-bible-newworld_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  heb-x-bible-helfi , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_heb-x-bible-helfi_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
+generating data for  ces-x-bible-newworld , at  /mounts/work/ayyoob/results/gnn_align/yoruba/POSTgs_ces-x-bible-newworld_1lngs-POSFeatTruealltgts_trnsfrmrTrue6LResTrue_trainWEFalse_mskLngTrue_E1_traintgt0.98_TypchckFalse_eng_20220528-014910_ElyStpDlta0-GA-chnls1024_small_final.pickle
