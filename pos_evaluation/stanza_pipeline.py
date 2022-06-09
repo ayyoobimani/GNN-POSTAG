@@ -23,7 +23,7 @@ import logging
 # code = 'en'
 # code = 'pt'
 # code = 'ar' 
-code = 'hi'
+# code = 'hi'
 # code = 'fa'
 # code = 'ga' # irish
 # code = 'ru' 
@@ -33,6 +33,19 @@ code = 'hi'
 # code = 'el' 
 # code = 'he' 
 # code = 'cs' # check
+
+# code='af'
+# code='bg'
+# code='eu'
+# code='hi'
+# code='id'
+code='lt'
+# code='fa'
+# code='pt'
+# code='be'
+# code='mr'
+# code='tr'
+# code='te'
 
 stanza.download(code)
 def tag_sentence(sentences):
@@ -72,7 +85,7 @@ def tag_sentence(sentences):
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/por-x-bible-versaointernacional.conllu", "w+")
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/arb-x-bible.conllu", "w+")
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/hin-x-bible-newworld.conllu", "w+")
-out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/hin-x-bible-bsi.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/hin-x-bible-bsi.conllu", "w+")
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/gle-x-bible.conllu", "w+")
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/deu-x-bible-bolsinger.conllu", "w+")
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/rus-x-bible-newworld.conllu", "w+")
@@ -82,6 +95,18 @@ out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/hin-x-bible-bsi.conllu",
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/ell-x-bible-newworld.conllu", "w+")
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/heb-x-bible-helfi.conllu", "w+")
 # out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/ces-x-bible-newworld.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/afr-x-bible-newworld.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/bul-x-bible-newworld.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/eus-x-bible-navarrolabourdin.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/hin-x-bible-bsi.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/ind-x-bible-newworld.conllu", "w+")
+out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/lit-x-bible-ecumenical.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/pes-x-bible-newmillennium2011.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/por-x-bible-newworld1996.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/bel-x-bible-bokun.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/mar-x-bible.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/tur-x-bible-newworld.conllu", "w+")
+# out = open("/mounts/work/silvia/POS/GNN-POSTAG/pos_evaluation/SILVER/tel-x-bible.conllu", "w+")
 
 
 # bible_file = "/nfs/datc/pbc/prs-x-bible-goodnews.txt"
@@ -100,7 +125,19 @@ out = open("/mounts/work/silvia/POS/TAGGED_LANGS/STANZA/hin-x-bible-bsi.conllu",
 # bible_file = "/nfs/datc/pbc/por-x-bible-versaointernacional.txt"
 # bible_file = "/nfs/datc/pbc/arb-x-bible.txt"
 # bible_file = "/nfs/datc/pbc/hin-x-bible-newworld.txt"
-bible_file = "/nfs/datc/pbc/hin-x-bible-bsi.txt"
+# bible_file = "/nfs/datc/pbc/afr-x-bible-newworld.txt"
+# bible_file = "/nfs/datc/pbc/bul-x-bible-newworld.txt"
+# bible_file = "/nfs/datc/pbc/eus-x-bible-navarrolabourdin.txt"
+# bible_file = "/nfs/datc/pbc/hin-x-bible-bsi.txt"
+# bible_file = "/nfs/datc/pbc/ind-x-bible-newworld.txt"
+bible_file = "/nfs/datc/pbc/lit-x-bible-ecumenical.txt"
+# bible_file = "/nfs/datc/pbc/pes-x-bible-newmillennium2011.txt"
+# bible_file = "/nfs/datc/pbc/por-x-bible-newworld1996.txt"
+# bible_file = "/nfs/datc/pbc/bel-x-bible-bokun.txt"
+# bible_file = "/nfs/datc/pbc/mar-x-bible.txt"
+# bible_file = "/nfs/datc/pbc/tur-x-bible-newworld.txt"
+# bible_file = "/nfs/datc/pbc/tel-x-bible.txt"
+
 # bible_file = "/nfs/datc/pbc/gle-x-bible.txt"
 # bible_file = "/nfs/datc/pbc/deu-x-bible-bolsinger.txt"
 # bible_file = "/nfs/datc/pbc/rus-x-bible-newworld.txt"
@@ -150,7 +187,8 @@ with open(bible_file) as f:
         out.write(F"# text = {l[1]}\n")
         # upos_tags = tag_sentence(l[1])
         # l[1] = l[1].replace("  ", " ")
-        for i,w in enumerate(l[1].split(" ")):
+        # for i,w in enumerate(l[1].split(" ")):
+        for i,w in enumerate(l[1].split()):
 
             if not w.lower()==upos_tags[sent_num][i][0].lower():
                 print("Error!")

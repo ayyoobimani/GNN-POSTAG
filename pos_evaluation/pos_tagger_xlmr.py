@@ -43,8 +43,10 @@ def train(bronze, lang, train, test, epochs):
                                 columns,
                                 # train_file =   '/mounts/work/silvia/POS/'+train,
                                 train_file =   train,
-                                test_file  =   '/nfs/datx/UD/v2_5/'+test,
-                                dev_file   =   '/nfs/datx/UD/v2_5/'+test,                                
+                                # test_file  =   '/nfs/datx/UD/v2_5/'+test,
+                                # dev_file   =   '/nfs/datx/UD/v2_5/'+test,        
+                                test_file  =   test,
+                                dev_file   =   test,                           
                                 comment_symbol="#",
                                 column_delimiter="\t"
                                 )
@@ -66,7 +68,8 @@ def train(bronze, lang, train, test, epochs):
     embeddings = TransformerWordEmbeddings('xlm-roberta-base', pooling_operation='first_last', 
                                             allow_long_sentences=False, max_length=512, truncation=True) #default: fine_tune: bool = False,
     # embeddings = TransformerWordEmbeddings('xlm-roberta-large', pooling_operation='first_last') #default: fine_tune: bool = False,
-
+    # embeddings = TransformerWordEmbeddings('bert-base-multilingual-cased', pooling_operation='first_last', 
+    #                                         allow_long_sentences=False, max_length=512, truncation=True) #default: fine_tune: bool = False,
     # 5. initialize sequence tagger
     tagger = SequenceTagger(hidden_size=128,
                             embeddings=embeddings,

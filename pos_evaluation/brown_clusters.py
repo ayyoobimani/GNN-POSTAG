@@ -82,8 +82,8 @@ def get_files_for_clustering(bible, wiki_file):
     with open(wiki_file) as f:
         for line in f:
             interval += 1
-            # if len(uniq_words.keys())>500000:
-            if len(uniq_words.keys())>5000:
+            if len(uniq_words.keys())>500000:
+            # if len(uniq_words.keys())>5000:
                 break
             if interval%10000==0:
                 print(len(uniq_words.keys()), tot)
@@ -253,7 +253,7 @@ def save_clusters_16(bible_file, wiki_file):
     size = 0
     max_len = 0
     cluster_file = f"{bible_file}_{wiki_file}-c128-p1.out/paths"
-    vector_file = f"{bible_file}_{wiki_file}-c128-p1.out/paths.vec"
+    vector_file = f"brown_clusters_16_{bible_file}_{wiki_file}.vec"
     out = open(vector_file,"w+")
     with open(cluster_file) as f:
         for line in f:
@@ -279,15 +279,15 @@ def save_clusters_16(bible_file, wiki_file):
     print(command)
     os.system(command)
 
-    word_vectors = gensim.models.KeyedVectors.load_word2vec_format(f"{bible_file}_{wiki_file}-c128-p1.out/paths.vec", binary=False)
-    word_vectors.save(f"{bible_file}_{wiki_file}-c128-p1.out/paths.vec"+'.gensim')
+    word_vectors = gensim.models.KeyedVectors.load_word2vec_format(vector_file, binary=False)
+    word_vectors.save(vector_file+'.gensim')
 
 """
 Count if test covered
 """
 def is_test_covered(bible_file, wiki_file, test_set):
     print("\nIs test covered?")
-    vector_file = f"brown_clusters_{bible_file}_{wiki_file}.vec"
+    vector_file = f"brown_clusters_170_{bible_file}_{wiki_file}.vec"
     words = {}
     in_words, out_words = 0, 0
 

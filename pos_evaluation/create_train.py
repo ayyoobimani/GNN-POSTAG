@@ -216,8 +216,8 @@ def struct_to_file(structure_out, bible_file_name, out_file, density=0):
                     label = '***'
                 elif not is_punctuation(token) and label=='PUNCT':
                     # print(token)
-                    if len(token)==1 and ord(token) == 2405:
-                        continue
+                    # if len(token)==1 and ord(token) == 2405:
+                    #     continue
                     label = '***'
                 # elif not is_number(token) and label=='NUM':
                 #     label = '***'
@@ -248,20 +248,21 @@ def struct_to_file(structure_out, bible_file_name, out_file, density=0):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--bronze", default=None, type=int, required=True, help="Specify bronze number [1,2,3]")
+    parser.add_argument("--bronze", default=None, type=str, required=True, help="Specify bronze number [1,2,3]")
     parser.add_argument("--bronze_file", default=None, type=str, required=True, help="Specify bronze file")
     parser.add_argument("--bible", default=None, type=str, required=True, help="Specify bible file")
     parser.add_argument("--lang", default=None, type=str, required=True, help="Language (3 letters)")
     parser.add_argument("--thr", default=None, type=float, required=True, help="Threshold for filtering")
-    parser.add_argument("--base_path", default=None, type=str, required=False, help="Base path")
+    parser.add_argument("--base_path", default="/mounts/work/silvia/POS/filter/", type=str, required=False, help="Base path")
     args = parser.parse_args()
 
+    print(f"File for: {args.lang}")
     bronze, bronze_out = read_our_bronze_file_source(args.bronze_file, args.bible, args.thr, args.lang) 
-    base_path = "/mounts/work/silvia/POS/filter/"
-    if args.base_path:
-        base_path = args.base_path
-    print(f"Output file: {base_path+args.lang}_bronze{args.bronze}_{str(args.thr)}.conllu")
-    struct_to_file(bronze_out, args.bible, base_path+args.lang+"_bronze"+str(args.bronze)+"_"+str(args.thr)+".conllu", density=0)
+    # base_path = "/mounts/work/silvia/POS/filter/"
+    # if args.base_path:
+    #     base_path = args.base_path
+    print(f"Output file: {args.base_path+args.lang}_bronze{args.bronze}_{str(args.thr)}.conllu")
+    struct_to_file(bronze_out, args.bible, args.base_path+args.lang+"_bronze"+str(args.bronze)+"_"+str(args.thr)+".conllu", density=0)
 
 if __name__ == "__main__":
     main()
