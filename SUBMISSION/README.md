@@ -22,7 +22,7 @@ GLP1: `GLP1/` folder
 
 GLP2: `GLP2/` folder
 
-GLP2 trained models: `MODELS/` folder 
+GLP2 trained models: Given the size of the models, we will release them in our servers, in case of acceptance, to preserve anonimity.
 
 Test: `TEST/` folder (Note: As described in the paper, we modified some test sets to accomodate the multiword tokens problem)
 
